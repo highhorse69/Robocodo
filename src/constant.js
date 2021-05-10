@@ -1,0 +1,5 @@
+ export const SEARCH_FIELD='SEARCH_FIELD';
+
+ export const PENDING_ROBOTS='PENDING_ROBOTS';
+ export const SUCCESS_ROBOTS='SUCCESS_ROBOTS';
+ export const FAILED_ROBOTS='FAILED_ROBOTS';

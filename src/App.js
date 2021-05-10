@@ -1,25 +1,72 @@
-import logo from './logo.svg';
+import React,{Component} from 'react';
+import Cardlist from './Cardlist';
+import {connect} from 'react-redux';
+import SearchBox from './SearchBox';
 import './App.css';
+//import {robots} from './Robots';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {setSearchField,roboSearch} from './action.js'
+
+
+
+const mapStateToProps=state=>{
+
+  return{
+    searchField:state.searchRobots.searchField,
+    robots:state.getRobots.robots,
+    isPending:state.getRobots.isPending,
+    error:state.getRobots.error
+  }
 }
 
-export default App;
+  const mapDispatchToProps=(dispatch)=>{
+   
+    return{
+      onSearchChange:(event)=>dispatch(setSearchField(event.target.value)),
+      onRoboChange:()=>dispatch(roboSearch())
+}
+  }
+
+class App extends Component
+
+{ 
+ 
+
+componentDidMount()
+{
+ 
+ this.props.onRoboChange();
+}
+
+
+
+    render(){
+      
+      const {searchField,onSearchChange,robots,isPending,error}=this.props;
+       const filterRobots=robots.filter(abc=>{
+    return abc.name.toLowerCase().includes(searchField.toLowerCase())
+     })
+         
+   
+    return(
+    <div className='tc'>
+              <h1 className='f1'>ROBOMONO</h1>
+     <SearchBox searchChange={onSearchChange} />              
+    
+ <Cardlist robots={filterRobots} />
+             
+    </div>
+  );
+
+
+    }
+}
+
+
+
+
+
+
+
+
+export default connect(mapStateToProps , mapDispatchToProps)(App);
